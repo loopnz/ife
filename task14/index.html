@@ -31,47 +31,47 @@
         将空气质量指数大于60的城市显示到aqi-list的列表中
         */
 
-        var ul=document.getElementById("aqi-list");
-        showAqiData(ul,60);
+        var ul = document.getElementById("aqi-list");
+        showAqiData(ul, 60);
 
-        function createLisFragment(arr){
-          var fragment=document.createDocumentFragment();
-          for(var i=0;i<arr.length;i++){
-             var element=createSingleElement(arr[i],i);
-             fragment.appendChild(element);
-          }
-          return fragment;
+        function createLisFragment(arr) {
+            var fragment = document.createDocumentFragment();
+            for (var i = 0; i < arr.length; i++) {
+                var element = createSingleElement(arr[i], i);
+                fragment.appendChild(element);
+            }
+            return fragment;
         }
 
-        function createSingleElement(data,idx){
-          var li=document.createElement('li');
-          var text=document.createTextNode("第"+(idx+1)+"名 "+data[0]+","+data[1]);
-          li.appendChild(text);
-          return li;
+        function createSingleElement(data, idx) {
+            var li = document.createElement('li');
+            var text = document.createTextNode("第" + (idx + 1) + "名 " + data[0] + "," + data[1]);
+            li.appendChild(text);
+            return li;
         }
 
-        function showAqiData(ul,num){
-          var arr=filter(aqiData,num);
-          arr=sort(arr);
-          var fragment=createLisFragment(arr);
-          ul.appendChild(fragment);
+        function showAqiData(ul, num) {
+            var arr = filter(aqiData, num);
+            arr = sort(arr);
+            var fragment = createLisFragment(arr);
+            ul.appendChild(fragment);
         }
 
-        function filter(arr,num){
-          var ret=[];
-            for(var i=0;i<arr.length;i++){
-              if(arr[i][1]>num){
-                ret.push(arr[i]);
-              }
+        function filter(arr, num) {
+            var ret = [];
+            for (var i = 0; i < arr.length; i++) {
+                if (arr[i][1] > num) {
+                    ret.push(arr[i]);
+                }
             }
             return ret;
         }
 
-        function sort(arr){
+        function sort(arr) {
 
-          return arr.sort(function(a1,a2){
-            return a2[1]-a1[1];
-          })
+            return arr.sort(function(a1, a2) {
+                return a2[1] - a1[1];
+            })
         }
 
     })();
