@@ -8,7 +8,7 @@
 
 <body>
     <label>请输入北京今天空气质量：
-        <input id="aqi-input" type="text">P
+        <input id="aqi-input" type="text">
     </label>
     <button id="button">确认填写</button>
     <div>您输入的值是：<span id="aqi-display">尚无录入</span></div>
@@ -27,21 +27,40 @@
         btn.addEventListener("click", function() {
 
             var text = input.value;
-            setSpanVal(span,text);
+            setSpanVal(span, text);
         }, false);
 
         input.addEventListener("keyup", function(e) {
 
             var code = e.keyCode;
             if (code == 13) {
-                setSpanVal(span,this.value);
+                setSpanVal(span, this.value);
             }
         })
 
         function setSpanVal(dom, text) {
-            dom.innerHTML = text;  
+            dom.innerHTML = text;
         }
 
+ 
+        var addEvent = (function() {
+            if (window.addEventListener) {
+                return function(dom, ev, fn) {
+                    dom.addEventListener(ev, fn, false);
+                }
+            } else if (window.attachEvent) {
+                return function(dom, ev, fn) {
+                    dom.attachEvent("on" + ev, function(){
+                      fn.apply(dom,arguments);
+                    });
+                }
+            } else {
+                return function(dom, ev, fn) {
+                    dom["on" + ev] = fn;
+                }
+            }
+
+        })();
     })();
     </script>
 </body>
