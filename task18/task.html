@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>task18</title>
+    <style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+    
+    button {
+        border: 1px solid #eee;
+        border-radius: 5px;
+        text-align: center;
+        width: 100px;
+        padding: 5px;
+    }
+    
+    #box {
+        margin-top: 10px;
+    }
+    
+    #box div {
+        width: 40px;
+        height: 40px;
+        display: inline-block;
+        line-height: 40px;
+        text-align: center;
+        background: red;
+        color: #fff;
+    }
+    
+    .cell+.cell {
+        margin-left: 10px;
+    }
+    </style>
+</head>
+
+<body>
+    <div>
+        <input type="text" id="input">
+        <button id="left_in">左侧入</button>
+        <button id="right_in">右侧入</button>
+        <button id="left_out">左侧出</button>
+        <button id="right_out">右侧出</button>
+    </div>
+    <div id="box">
+    </div>
+    <script type="text/javascript">
+    var $ = function(id) {
+        return document.getElementById(id);
+    }
+
+    var input = $("input");
+    var left_in = $("left_in");
+    var right_in = $("right_in");
+    var left_out = $("left_out");
+    var right_out = $("right_out");
+    var box = $("box");
+
+    var queue = [];
+
+    left_in.addEventListener('click', function() {
+        var value = input.value;
+        if (!isNaN(parseInt(value))) {
+            var element = new Elem(parseInt(value));
+            queue.unshift(element);
+            box.insertBefore(element.element, box.firstChild);
+        }
+
+    })
+    right_in.addEventListener('click', function() {
+        var value = input.value;
+        if (!isNaN(parseInt(value))) {
+            var element = new Elem(value);
+            queue.push(element);
+            box.appendChild(element.element);
+        }
+
+    })
+    left_out.addEventListener('click', function() {
+        var element = queue.shift();
+        box.removeChild(element.element);
+        alert(element.value);
+    })
+    right_out.addEventListener('click', function() {
+        var element = queue.pop();
+        box.removeChild(element.element);
+        alert(element.value);
+    })
+
+    box.addEventListener('click', function(e) {
+
+        var target = e.target;
+        if (target.className === "cell") {
+            var idx = getIndex(target);
+            var arr = queue.splice(idx, 1);
+            box.removeChild(arr[0].element);
+            alert(arr[0].value);
+        }
+
+    })
+
+
+    function getIndex(elem) {
+
+        var children = box.children;
+
+        for (var i = 0; i < children.length; i++) {
+            if (children[i] === elem) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    function Elem(value) {
+        this.value = value;
+        this.element = document.createElement('div');
+        this.element.className = "cell";
+        this.element.innerHTML = value;
+    }
+    </script>
+</body>
+
+</html>
