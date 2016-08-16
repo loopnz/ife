@@ -65,7 +65,7 @@
     left_in.addEventListener('click', function() {
         var value = input.value;
         if (!isNaN(parseInt(value))) {
-            var element = new Elem(parseInt(value));
+            var element = new Elem(parseInt(value~));
             queue.unshift(element);
             box.insertBefore(element.element, box.firstChild);
         }
