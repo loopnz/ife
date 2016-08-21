@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>task20</title>
+    <script src="task.js"></script>
+    <style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+    
+    button {
+        border: 1px solid #eee;
+        border-radius: 5px;
+        text-align: center;
+        width: 100px;
+        padding: 5px;
+    }
+    
+    #box {
+    	position: absolute;
+        margin-top: 10px;
+    }
+    
+    #box div {
+        padding: 5px 10px;
+        display: inline-block;
+        text-align: center;
+        background: red;
+        color: #fff;
+        margin-left: 10px;
+    }
+    
+    .cell+.cell {
+        margin-left: 10px;
+    }
+    textarea{
+        width: 200px;
+        height: 200px;
+    }
+    body{
+        padding: 50px;
+    }
+    </style>
+</head>
+
+<body>
+    <div>
+        <textarea id="input"></textarea>
+        <button id="left_in">左侧入</button>
+        <button id="right_in">右侧入</button>
+        <button id="left_out">左侧出</button>
+        <button id="right_out">右侧出</button>
+        <button id="search">查询</button>
+        <input type="text" id="sin">
+    </div>
+    <div id="box">
+    </div>
+
+</body>
+
+</html>
