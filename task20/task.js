@@ -92,35 +92,35 @@ window.onload = function() {
     }
 
     var search = $("search");
-    var sin=$("sin");
+    var sin = $("sin");
 
     search.addEventListener("click", function() {
 
         var value = sin.value;
-        var reg="(.*)("+value+")(.*)";
-        reg=new RegExp(reg);
-        eachObj(queue,function(elem){
+        var reg = "(.*)(" + value + ")(.*)";
+        reg = new RegExp(reg);
+        eachObj(queue, function(elem) {
 
-          var html=elem.value;
-          var arr=html.match(reg);
-          if(!arr){
-            elem.element.innerHTML=html;
-            return;
-          }
-          arr.shift();
-          elem.element.innerHTML="";
-          eachObj(arr,function(str){
-            var node;
-            if(str==value){
-              node=document.createElement('span');
-              node.innerHTML=str;
-              node.style.color="#fff";
-              node.style.backgroundColor="blue";
-            }else{
-              node=document.createTextNode(str);
+            var html = elem.value;
+            var arr = html.match(reg);
+            if (!arr) {
+                elem.element.innerHTML = html;
+                return;
             }
-            elem.element.appendChild(node);
-          })
+            arr.shift();
+            elem.element.innerHTML = "";
+            eachObj(arr, function(str) {
+                var node;
+                if (str == value) {
+                    node = document.createElement('span');
+                    node.innerHTML = str;
+                    node.style.color = "#fff";
+                    node.style.backgroundColor = "blue";
+                } else {
+                    node = document.createTextNode(str);
+                }
+                elem.element.appendChild(node);
+            })
         })
 
     }, false)
