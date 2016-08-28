@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>task21</title>
+	<style>
+		*{
+			margin: 0;
+			padding: 0;
+		}
+
+		body{
+			padding: 30px;
+		}
+
+		.tagbox{
+			margin-top: 20px;
+		}
+
+		.tag{
+			padding: 3px 5px;
+			color: #fff;
+			display: inline-block;
+			cursor: pointer;
+		}
+		.tag+.tag{
+			margin-left: 10px;
+		}
+		.blue{
+			background: blue;
+		}
+
+		.red{
+			background: red;
+		}
+
+		.orange{
+			background: orange;
+		}
+		
+		#btn{
+			display: block;
+			margin-top: 5px;
+			margin-bottom: 20px;
+			cursor: pointer;
+		}
+		.textarea{
+			margin-top: 10px;
+		}
+		
+		.pointer{
+			cursor: pointer;
+		}
+
+	</style>
+</head>
+<body>
+	<div><label for=""><span>Tag:</span><input id="input" type="text"></label></div>
+	<div class="tagbox" id="tagbox">
+		
+	</div>
+	<div class="textarea">
+		<textarea name="" id="txt" cols="30" rows="10"></textarea>
+		<button id="btn">确认兴趣爱好</button>
+		<div class="tagbox" id="interestbox">
+			
+		</div>
+	</div>
+
+	<script src="task.js"></script>
+	
+</body>
+</html>
