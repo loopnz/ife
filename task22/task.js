@@ -27,7 +27,7 @@ behind.addEventListener("click", function() {
 
 
 function travel(flag) {
-	var fn;
+    var fn;
     var i = 0;
     var currentNode = null;
     var over = function() {
@@ -37,47 +37,47 @@ function travel(flag) {
             i = 0;
         }, 500);
     }
-    var showNode=function(count,node){
-    	 setTimeout(function() {
-                    if (currentNode) {
-                        currentNode.classList.remove("blue");
-                    }
-                    node.value.classList.add("blue");
-                    currentNode = node.value;
-                    if (count == i - 1) {
-                        over();
-                    }
-                }, 500 * count)
+    var showNode = function(count, node) {
+        setTimeout(function() {
+            if (currentNode) {
+                currentNode.classList.remove("blue");
+            }
+            node.value.classList.add("blue");
+            currentNode = node.value;
+            if (count == i - 1) {
+                over();
+            }
+        }, 500 * count)
     }
-    if(flag=="before"){
-    	fn = function(node) {
-	        if (node != null) {
-	           	showNode(i,node);
-	            i++;
-	            fn(node.left);
-	            fn(node.right);
-	        }
-    	}
-    }else if(flag=="middle"){
-    	fn = function(node) {
-	        if (node != null) {
-	        	fn(node.left);
-	           	showNode(i,node);
-	            i++;
-	            fn(node.right);
-	        }
-    	}
-    }else if(flag=="behind"){
-    	fn = function(node) {
-	        if (node != null) {
-	        	fn(node.left);
-	            fn(node.right);
-	           	showNode(i,node);
-	            i++;
-	        }
-    	}
+    if (flag == "before") {
+        fn = function(node) {
+            if (node != null) {
+                showNode(i, node);
+                i++;
+                fn(node.left);
+                fn(node.right);
+            }
+        }
+    } else if (flag == "middle") {
+        fn = function(node) {
+            if (node != null) {
+                fn(node.left);
+                showNode(i, node);
+                i++;
+                fn(node.right);
+            }
+        }
+    } else if (flag == "behind") {
+        fn = function(node) {
+            if (node != null) {
+                fn(node.left);
+                fn(node.right);
+                showNode(i, node);
+                i++;
+            }
+        }
     }
-   	
+
     return fn;
 }
 
