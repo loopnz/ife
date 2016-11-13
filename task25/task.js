@@ -1,6 +1,4 @@
-<<<<<<< HEAD
-task.js
-=======
+
 
 function TNode(options) {
     this.el = options.el;
@@ -294,4 +292,3 @@ var node = createTree(obj);
 document.body.appendChild(node.el);
 page.init();
 page.tree = node;
->>>>>>> 558c0bf661e2b05660db77f7aca0fd2a236f1393
