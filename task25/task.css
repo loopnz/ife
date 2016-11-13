@@ -1,0 +1,45 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+body{
+	padding: 50px;
+}
+.node{
+	padding: 5px 0;
+	cursor: pointer;
+}
+.dn{
+	display: none!important;
+}
+.down{
+	display: inline-block;
+	width: 0px;
+	height: 0px;
+	border-bottom: 0px solid transparent;
+	border-left: 4px solid transparent;
+	border-right:4px solid  transparent;
+	border-top: 6px solid black;
+}
+.up{
+	display: inline-block;
+	height: 0;
+	width: 0;
+	border-left: 6px solid black;
+	border-top:4px solid transparent;
+	border-bottom:4px solid transparent;
+	border-right: 0px solid transparent;
+}
+.title{
+	display: inline-block;
+}
+.node.has .title{
+	color: #5774c2;
+}
+.node.none .title{
+	color:orange;
+}
+
+.childBox{
+	margin-left: 30px;
+}
