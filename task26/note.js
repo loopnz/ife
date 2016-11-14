@@ -1,14 +1,4 @@
 /*
-Module
-Prototype
-Observer
-singleton
-
-context
-problem
-solution
-implentation
-
 如图（打开查看），创建一个虚拟宇宙，包括一个行星和飞船
 每个飞船由以下部分组成
 动力系统，可以完成飞行和停止飞行两个行为，暂定所有飞船的动力系统飞行速度是一致的，
@@ -48,7 +38,10 @@ Mediator是单向传播的，只能从行星发射到宇宙中，
 var Util = {
     each: function(arr, fn) {
         for (var i = 0; i < arr.length; i++) {
-            fn(arr[i], i);
+            var ret = fn(arr[i], i);
+            if (ret === false) {
+                break;
+            }
         }
     },
     extend: function(src, source) {
@@ -64,6 +57,9 @@ var Util = {
         }
         var child = function() {
             base.apply(this, arguments);
+            if(this.init){
+            	this.init.apply(this,arguments);
+            }
         };
         var temp = function() {};
         temp.prototype = base.prototype;
@@ -79,14 +75,37 @@ var Util = {
 
 Util.observer.prototype = {
     constructor: Util.observer,
-    $on: function() {
-
+    $on: function(event, fn, context) {
+        fn.context = context || this;
+        this.listeners[event] = this.listeners[event] || [];
+        this.listeners[event].push(fn);
     },
-    $off: function() {
-
+    $off: function(event, fn) {
+        if (!this.listeners[event]) {
+            return false;
+        }
+        if (!fn) {
+            delete this.listeners[event];
+        } else {
+            var idx = null;
+            Util.each(this.listeners[event], function(elem, i) {
+                if (elem === fn) {
+                    idx = i;
+                    return false;
+                }
+            })
+            if (idx) {
+                this.listeners[event] = this.listeners[event].splice(idx, 1);
+            }
+        }
+        return true;
     },
-    $emit: function() {
-
+    $emit: function(event) {
+        var arg = Array.prototype.slice.apply(arguments);
+        arg = arg.slice(1);
+        Util.each(this.listeners[event], function(elem, i) {
+            return elem.apply(elem.context, arg);
+        })
     }
 }
 
@@ -101,7 +120,7 @@ var createSpacecraftFactory = {
         var energy = options.energy || new Energy();
         var spacecraft = new Spacecraft(options);
         if (this.sidPoor.length > 0) {
-            spacecraft.id = this.sidPoor.shift();
+            spacecraft.id = this.sidPoor.shift()[0];
         } else {
             spacecraft.id = this.sid++;
         }
@@ -149,8 +168,18 @@ var Engine = Util.inherit({
 })
 
 var Energy = Util.inherit({
-    init: function() {
-
+    init: function(units) {
+    	var self=this;
+    	this.energyNum=100;
+    	this.units=units;
+    	for(var i=0;i<units.length;i++){
+    		units[i].$on("consume",function(num){
+    			self.doConsume(num);
+    		})
+    	}
+    },
+    doConsume:function(num){
+    	
     }
 })
 
@@ -186,4 +215,45 @@ Mediator.prototype = {
 
 var commander = createSpacecraftFactory.$new();
 
-console.log(Engine.prototype);
+
+
+// 16-11-14 09:53:12,643 [INFO ] com.sts.obt.util.TLinkUtils {TLinkUtils.java:75} - TLink请求参数transactionName[TR_ApproveActionRQ]request[{
+// 	"Header":{
+// 		"Application":"sts_basic"
+// 	},
+// 	"Identity":{
+// 		"EmplyID":1266,
+// 		"PassWord":"1164f9e5b8cef768396dcd5374e4b6eb",
+// 		"TMCServiceCode":{
+// 			"AirOfficeID":"BJS131",
+// 			"IsDefault":"\u0000",
+// 			"ServiceID":"beifen",
+// 			"THUBOfficeID":"BJS723",
+// 			"TMCID":"1040",
+// 			"ThubChannelCode":"BJS723BJS723LEN",
+// 			"ThubUserName":"BJS72300C",
+// 			"ThubUserPasswd":"6fa172152046878e0c3188d08ee35adb"
+// 		}
+// 	},
+// 	"Source":{
+// 		"BookingChannel":"WEB"
+// 	},
+// 	"TransactionName":"TR_ApproveActionRQ",
+// 	"approveActionInfo":{
+// 		"Action":"C",
+// 		"FormEmplyID":"1266",
+// 		"FormEmplyName":"李薇",
+// 		"FormNO":"91000937122",
+// 		"FormType":"I"
+// 	},
+// 	"nextApprovers":[
+// 		{
+// 			"ApproverID":"1266",
+// 			"Level":"1"
+// 		},
+// 		{
+// 			"ApproverID":"1013",
+// 			"Level":"2"
+// 		}
+// 	]
+// }]
