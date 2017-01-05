@@ -16,11 +16,11 @@
 命令某个飞船停止飞行
 命令某个飞船销毁，销毁后飞船消失、飞船标示可以用于下次新创建的飞船
 你需要设计类似如下指令格式的数据格式
-			{
-				id: 1,
-				commond: 'stop'
-			}
-		
+            {
+                id: 1,
+                commond: 'stop'
+            }
+        
 指挥官通过信号发射器发出的命令是通过一种叫做Mediator的介质进行广播
 Mediator是单向传播的，只能从行星发射到宇宙中，
 在发射过程中，有30%的信息传送失败（丢包）概率，你需要模拟这个丢包率，
@@ -57,8 +57,8 @@ var Util = {
         }
         var child = function() {
             base.apply(this, arguments);
-            if(this.init){
-            	this.init.apply(this,arguments);
+            if (this.init) {
+                this.init.apply(this, arguments);
             }
         };
         var temp = function() {};
@@ -163,23 +163,31 @@ Spacecraft.prototype = {
 
 var Engine = Util.inherit({
     init: function() {
-
+        
     }
 })
 
 var Energy = Util.inherit({
     init: function(units) {
-    	var self=this;
-    	this.energyNum=100;
-    	this.units=units;
-    	for(var i=0;i<units.length;i++){
-    		units[i].$on("consume",function(num){
-    			self.doConsume(num);
-    		})
-    	}
+        var self = this;
+        this.energyNum = 100;
+        this.units = units;
+        for (var i = 0; i < units.length; i++) {
+            units[i].$on("consume", function(num) {
+                var num=self.doConsume(num);
+                this.action(num);
+            })
+        }
     },
-    doConsume:function(num){
-    	
+    doConsume: function(num) {
+        if(this.energyNum>num){
+            this.energyNum=this.energyNum-num;
+            return num;
+        }else{
+            var n=this.energyNum;
+            this.energyNum=0;
+            return n ;
+        }
     }
 })
 
@@ -217,43 +225,48 @@ var commander = createSpacecraftFactory.$new();
 
 
 
-// 16-11-14 09:53:12,643 [INFO ] com.sts.obt.util.TLinkUtils {TLinkUtils.java:75} - TLink请求参数transactionName[TR_ApproveActionRQ]request[{
-// 	"Header":{
-// 		"Application":"sts_basic"
-// 	},
-// 	"Identity":{
-// 		"EmplyID":1266,
-// 		"PassWord":"1164f9e5b8cef768396dcd5374e4b6eb",
-// 		"TMCServiceCode":{
-// 			"AirOfficeID":"BJS131",
-// 			"IsDefault":"\u0000",
-// 			"ServiceID":"beifen",
-// 			"THUBOfficeID":"BJS723",
-// 			"TMCID":"1040",
-// 			"ThubChannelCode":"BJS723BJS723LEN",
-// 			"ThubUserName":"BJS72300C",
-// 			"ThubUserPasswd":"6fa172152046878e0c3188d08ee35adb"
-// 		}
-// 	},
-// 	"Source":{
-// 		"BookingChannel":"WEB"
-// 	},
-// 	"TransactionName":"TR_ApproveActionRQ",
-// 	"approveActionInfo":{
-// 		"Action":"C",
-// 		"FormEmplyID":"1266",
-// 		"FormEmplyName":"李薇",
-// 		"FormNO":"91000937122",
-// 		"FormType":"I"
-// 	},
-// 	"nextApprovers":[
-// 		{
-// 			"ApproverID":"1266",
-// 			"Level":"1"
-// 		},
-// 		{
-// 			"ApproverID":"1013",
-// 			"Level":"2"
-// 		}
-// 	]
-// }]
+    var d = -1;
+    var r = 100;
+    var pivot = {
+        x: 300,
+        y: 300
+    }
+    var i = 0;
+
+
+    var requestFrame = function(fn) {
+        setTimeout(function() {
+            fn();
+        }, 1000/60);
+    }
+
+    function test() {
+        var x, y;
+        d += 1;
+        var angle = compute(d);
+        var __y = Math.sin(angle) * 100;
+        var __x = Math.cos(angle) * 100;
+        if (even(d)) {
+            x = pivot.x + __x;
+            y = pivot.y - __y;
+        } else {
+            x = pivot.x - __x;
+            y = pivot.y + __y;
+        }
+        ball.css({
+            left:x-10,
+            top:y-10
+        })
+        requestFrame(test);
+
+    }
+    test();
+
+    function compute(num) {
+
+        return (num % 180) * Math.PI / 180;
+    }
+
+    function even(num) {
+        return Math.floor(num / 180) % 2 === 0;
+    }

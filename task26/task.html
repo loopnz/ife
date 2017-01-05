@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>task26</title>
+	<style>
+		#s{
+			width: 30px;
+			height: 60px;
+			background: red;
+			transform: rotate(-30deg);
+			margin: 300px;
+		}
+
+	</style>
+</head>
+<body>
+		
+		<div id="s" >123</div>
+	
+	
+	<script type="text/javascript">
+		var div=document.getElementById("s");
+		var initDeg=30;
+		var i=0;
+		
+		function run(){
+			 s.style.transform="rotate("+(-(initDeg+i++))+"deg)";
+			window.requestAnimationFrame(function(){
+				run();
+			})
+		}
+
+	
+	</script>
+
+</body>
+</html>
